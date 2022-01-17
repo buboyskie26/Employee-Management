@@ -1,0 +1,292 @@
+﻿@model MyLeaveVM;
+@{
+    ViewData["Title"] = "MyLeave";
+}
+
+@{ 
+    var leaveType = Model.LeaveAllocations;
+    var rejectedRequestSick = Model.LeaveRequests.Where(i => i.Approved == false && i.Cancelled == false && i.LeaveType.Name.Contains("Sick")).Count();
+    var approvedRequestSick = Model.LeaveRequests.Where(i => i.Approved == true && i.Cancelled == false && i.LeaveType.Name.Contains("Sick")).Count();
+    var pendingRequestSick = Model.LeaveRequests.Where(i => i.Approved == null && i.Cancelled == true && i.LeaveType.Name.Contains("Sick")).Count();
+    var totalRequestSick = Model.LeaveRequests.Where(q => q.LeaveType.Name.Contains("Sick")).Count();
+
+    var rejectedRequestVac = Model.LeaveRequests.Where(i => i.Approved == false && i.Cancelled==false && i.LeaveType.Name.Contains("Vacation")).Count();
+    var approvedRequestVac = Model.LeaveRequests.Where(i => i.Approved == true && i.Cancelled == false && i.LeaveType.Name.Contains("Vacation")).Count();
+    var pendingRequestVac = Model.LeaveRequests.Where(q => q.LeaveType.Name.Contains("Vacation") && q.Approved == null && q.Cancelled == true).Count();
+    var totalRequestVac = Model.LeaveRequests.Where(q => q.LeaveType.Name.Contains("Vacation")).Count();
+
+            }
+ 
+<div class="offset-md-3">
+    <div class="col-lg-8">
+
+        <div class="card">
+
+            <div class="card-header border-0">
+                <h3 class="card-text text-center">My Leave Allocation</h3>
+                <div class="card-tools">
+                    <a href="#" class="btn btn-sm btn-tool">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <a href="#" class="btn btn-sm btn-tool">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+            @foreach (var item in Model.LeaveAllocations)
+            {
+        <div class="offset-md-2 col-md-10">
+            @if (item.LeaveType.Name.Equals("Sick"))
+            {
+                <div class="col-lg-10 col-10">
+                    <!-- small card -->
+                    <div class="small-box bg-dark">
+                        <div class="ml-3 pt-2 row">
+                            <i class="fas fa-medkit"></i>
+                            <div class="row">
+                                <h6 class="ml-4"><span>@approvedRequestSick</span> <i class="fas fa-check bg-success"></i></h6>
+                                <h6 class="ml-4  "><span>@rejectedRequestSick</span> <i class="fas fa-times bg-danger text-red"></i></h6>
+                                <h6 class="ml-4"><span>@pendingRequestSick</span>  <i class="fas fa-spinner fa-pulse"></i></h6>
+                                <h6 class="ml-4"><span>@totalRequestSick</span> Total</h6>
+                            </div>
+                        </div>
+
+                        <div class="inner">
+                            <h3 class="text-center">@item.NumberOfDays<sup style="font-size: 20px">left</sup></h3>
+
+                            <h3 class="text-center">@item.LeaveType.Name</h3>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            More info <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+            else if (item.LeaveType.Name.Equals("Vacation"))
+            {
+                <div class="col-lg-10 col-10">
+                    <!-- small card -->
+                    <div class="small-box bg-gradient-dark">
+                        <div class="ml-3 pt-2 row">
+                            <i class="fas fa-bed"></i>
+                            <div class="row">
+                                <h6 class="ml-4"><span>@approvedRequestVac</span> <i class="fas fa-check bg-success"></i></h6>
+                                <h6 class="ml-4  "><span>@rejectedRequestVac</span> <i class="fas fa-times bg-danger text-red"></i></h6>
+                                <h6 class="ml-4"><span>@pendingRequestVac</span>  <i class="fas fa-spinner fa-pulse"></i></h6>
+                                <h6 class="ml-4"><span>@totalRequestVac</span> Total</h6>
+                            </div>
+
+
+                        </div>
+
+                        <div class="inner">
+                            <h3 class="text-center">@item.NumberOfDays<sup style="font-size: 20px"> left</sup></h3>
+                            <h3 class="text-center">@item.LeaveType.Name</h3>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            More info <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+
+            @*   @if (item.LeaveType.Name.Equals("Sick"))
+        {
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                    <p class="text-success text-xl red">
+                        <i class="fas fa-medkit"></i>
+                    </p>
+                    <p class="d-flex flex-column text-right">
+                        <span class="font-weight-bold">
+                            <i class="ion ion-android-arrow-up text-success"></i> <span>@item.NumberOfDays</span>
+                        </span>
+                        <span class="text-muted">@item.LeaveType.Name</span>
+                    </p>
+                </div>
+            </div>
+        }
+        else if (item.LeaveType.Name.Equals("Vacation"))
+        {
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                    <p class="text-success text-xl red">
+                        <i class="fas fa-bed"></i>
+                    </p>
+                    <p class="d-flex flex-column text-right">
+                        <span class="font-weight-bold">
+                            <i class="ion ion-android-arrow-up text-success"></i> <span>@item.NumberOfDays</span>
+                        </span>
+                        <span class="text-muted">@item.LeaveType.Name</span>
+                    </p>
+                </div>
+            </div>
+        }
+
+            *@
+
+            }
+
+        </div>
+
+    </div>
+</div>
+
+
+<div id="calendar"></div>
+
+<h1 class="text-center">Remaining Record</h1>
+
+<table id="tblData" class="table table-responsive-md table-hover">
+    <thead>
+        <tr class="text-center">
+            <th>
+                Leave Type
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Date Requested
+            </th>
+
+            <th>
+                Approval State
+            </th>
+
+            <th>
+                Cancel Request
+            </th>
+            <th>
+                Edit Request
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LeaveRequests)
+        {
+            <tr class="text-center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                </td>
+                <td>
+                    @item.StartDate.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @item.EndDate.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateRequested, new { @value = item.DateRequested.ToString("yyyy-mm-dd") })
+                </td>
+
+                <td>
+                    @if (item.Cancelled == true && item.Approved == false)
+                    {
+                        {
+                            <span class="btn-block badge-secondary">Cancelled</span>
+                        }
+
+                    }
+                    else if (item.Approved == true && item.Cancelled == false)
+                    {
+                        <h6 class="btn-block text-center badge-success">Approved</h6>
+
+                    }
+                    else if (item.Approved == false && item.Cancelled == false)
+                    {
+                        <span class="btn-block text-center badge-danger">Reject</span>
+
+                    }
+                    else
+                    {
+                        <span class="btn-block text-center badge-pill">Pending</span>
+
+                    }
+                </td>
+                <td>
+                    @if (item.Cancelled == true && item.Approved == null)
+                    {
+                        <a asp-action="CancelRequest" class="btn btn-sm btn-outline-danger"
+                           asp-route-id="@item.Id"
+                           onclick="return validateInput()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                        @*  onclick = "return confirm('Are you sure you want to cancel this request?')"*@
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="fa fa-user-edit" aria-hidden="true"></i>
+
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<partial name="_AddEditAppointment" />
+
+
+
+@section Scripts {
+ 
+    <script>
+  
+        function validateInput() {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                }
+            })
+        }
+
+
+
+
+    </script>
+}

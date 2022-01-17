@@ -1,0 +1,187 @@
+﻿
+@model RequestCountVM;
+@{
+    ViewData["Title"] = "Employee Summary";
+
+    var pendingSuperVisor = Model.LeaveRequests.Where(i => i.RequestingEmployee.Role.Equals("SuperVisor") && i.Approved == null && i.Cancelled == true).Count();
+    var rejectedSuperVisor = Model.LeaveRequests.Where(i => i.RequestingEmployee.Role.Equals("SuperVisor") && i.Approved == false && i.Cancelled == false).Count();
+    var approveSuperVisor = Model.LeaveRequests.Where(i => i.RequestingEmployee.Role.Equals("SuperVisor") && i.Approved == true && i.Cancelled == false).Count();
+
+
+    var pendingManager = Model.LeaveRequests.Where(i => i.RequestingEmployee.Role.Equals("Manager") && i.Approved == null && i.Cancelled == true).Count();
+    var rejectedManager = Model.LeaveRequests.Where(i => i.RequestingEmployee.Role.Equals("Manager") && i.Approved == false && i.Cancelled == false).Count();
+    var approveManager = Model.LeaveRequests.Where(i => i.RequestingEmployee.Role.Equals("Manager") && i.Approved == true && i.Cancelled == false).Count();
+}
+<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+    <!--begin::Header-->
+
+    <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Toolbar-->
+        <div class="toolbar" id="kt_toolbar">
+            <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
+                    <!--begin::Title-->
+                    <h1 class="text-dark fw-bolder my-1 fs-2">Employees</h1>
+
+                </div>
+                <!--end::Info-->
+                <!--begin::Actions-->
+                <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+                    <a href="#" class="btn bg-body btn-color-gray-700 btn-active-primary me-4" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">Invite a Friend</a>
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project" id="kt_toolbar_primary_button">New Project</a>
+                </div>
+                <!--end::Actions-->
+            </div>
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Post-->
+        <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div class="container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <!--<div class="card-header border-0 pt-6">-->
+                        <!--begin::Card title-->
+                        <!--<div class="card-title">-->
+                            <!--begin::Search-->
+                            <!--<div class="d-flex align-items-center position-relative my-1">-->
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                <!--<span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+                                        <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black"></path>
+                                    </svg>
+                                </span>-->
+                                <!--end::Svg Icon-->
+                                <!--<input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search user">
+                            </div>-->
+                            <!--end::Search-->
+                        <!--</div>
+
+                    </div>-->
+
+                    <div class="card-body pt-0">
+                        <!--begin::Table-->
+                        <div id="kt_table_users_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="table-responsive">
+                                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="kt_table_users">
+                                    <!--begin::Table head-->
+                                    <thead>
+                                        <!--begin::Table row-->
+                                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                                            <th class="w-10px pe-2 sorting_disabled" rowspan="1" colspan="1" aria-label="
+
+
+
+													" style="width: 29.25px;">
+                                                <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                                    <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" value="1">
+                                                </div>
+                                            </th>
+                                            <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="User: activate to sort column ascending" style="width: 201.781px;">User</th>
+                                            <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending" style="width: 125px;">Role</th>
+                                            <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Last login: activate to sort column ascending" style="width: 125px;">Approved</th>
+                                            <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Last login: activate to sort column ascending" style="width: 125px;">Rejected</th>
+                                            <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Joined Date: activate to sort column ascending" style="width: 125px;">Joined Date</th>
+                                            <th class="text-end min-w-100px sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 250px;">Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="text-gray-600 fw-bold">
+
+                                        @foreach (var item in Model.Employees)
+                                        {
+                                        <tr class="odd">
+                                            <td>
+                                                <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                    <input class="form-check-input" type="checkbox" value="1">
+                                                </div>
+                                            </td>
+                                           
+                                            <td class="d-flex align-items-center">
+ 
+                                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                    <div class="symbol-label">
+                                                        @*  <img src="/craft/assets/media/avatars/150-1.jpg" alt="Emma Smith" >
+                    <img alt="image" style="max-width:100px" class="img-circle img-size-32 mr-2" src="@Url.Content(item.RequestingEmployee.ImageUrl)" />*@
+                                                        <img alt="image" style="max-width:100px;" class="img-circle img-size-32" src="@Url.Content(item.ImageUrl)" />
+
+                                                    </div>
+                                                </div>
+                                                <!--end::Avatar-->
+                                                <!--begin::User details-->
+                                                <div class="d-flex flex-column ml-2">
+                                                    <a asp-controller="Attendance" asp-action="AttendanceEmployee" asp-route-id="@item.Id" class="text-gray-800 text-hover-primary mb-1">@item.Fullname</a>
+                                                    <span>@item.Email</span>
+                                                </div>
+                                                <!--begin::User details-->
+                                            </td>
+
+                                            <td>@item.Role</td>
+
+
+                                            @if (item.Role.Equals("SuperVisor"))
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-block btn-outline-danger text-white btn-sm">@rejectedSuperVisor Rejected</button>
+                                                </td>
+
+
+                                            }
+                                            else if (item.Role.Equals("Manager"))
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-block btn-outline-danger text-white btn-sm">@rejectedManager Rejected</button>
+                                                </td>
+                                            }
+
+
+                                            @if (item.Role.Equals("SuperVisor"))
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-block btn-outline-success text-white btn-sm">@approveSuperVisor Approved</button>
+                                                </td>
+
+                                            }
+                                            else if (item.Role.Equals("Manager"))
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-block btn-outline-success text-white btn-sm">@approveManager Approved</button>
+                                                </td>
+                                            }
+
+                                            <td data-order="2022-06-24T18:05:00+08:00">@item.DateJoined.ToString("dddd, dd MMMM yyyy")</td>
+
+
+                                            <td class="align-items-end pd-0 m-0">
+                                                <a class="text-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <a class="text-success" asp-action="Details" asp-route-id="@item.Id">
+                                                    <i class="fas fa-bars"></i> Details
+                                                </a>
+                                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                                    <i class="far fa-trash-alt"></i> Delete
+                                                </a>
+
+                                            </td>
+                                            <!--end::Action=-->
+                                        </tr>
+                                        }
+
+
+
+                                    </tbody>
+                                </table>
+                            </div><div class="row"><div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"></div><div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end"><div class="dataTables_paginate paging_simple_numbers" id="kt_table_users_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="kt_table_users_previous"><a href="#" aria-controls="kt_table_users" data-dt-idx="0" tabindex="0" class="page-link"><i class="previous"></i></a></li><li class="paginate_button page-item active"><a href="#" aria-controls="kt_table_users" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="kt_table_users" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="kt_table_users" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item next" id="kt_table_users_next"><a href="#" aria-controls="kt_table_users" data-dt-idx="4" tabindex="0" class="page-link"><i class="next"></i></a></li></ul></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
+</div>

@@ -1,0 +1,76 @@
+﻿@model AttendanceEmployee;
+@{
+    ViewData["Title"] = "SignIn";
+
+
+    var obj = Model.Attendances.Select(i => i.Id).LastOrDefault();
+
+
+}
+
+
+
+<h1 class="text-center">Time in Section</h1>
+
+<table class="table">
+    <thead>
+        <tr class="text-center">
+
+            <th>Time In</th>
+            <th>Time Out</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Employees)
+        {
+        <tr class="text-center">
+
+            <td>
+                <a asp-action="TimeIn" class="bg-success btn" asp-route-id="@item.Id" >
+                    <i class="fa fa-check text-white"></i> sign in
+                </a>
+
+            </td>
+     @*       @if (Model.Attendances.Any(q => q.IsLogin == true && q.IsLogOff == null))
+            {
+
+                <td>
+                    <a asp-action="TimeIn" class="bg-success btn disabled" asp-route-id="@item.Id" style="cursor:not-allowed">
+                        <i class="fa fa-check text-white"></i> Already
+                    </a>
+
+                </td>
+            }
+
+            else
+            {
+                <td>
+                    <a asp-action="TimeIn" asp-route-id="@item.Id" class="bg-success btn">
+                        <i class="fa fa-check text-white"></i> Set In
+                    </a>
+
+                </td>
+            }*@
+            @if (Model.Attendances.Where(q => q.IsLogin == true).Any())
+            {
+                <td>
+                    <a asp-action="TimeOut" asp-route-id="@obj" class="bg-danger btn">
+                        <i class="fas fa-lock text-white"></i> Set Out
+                    </a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a class="btn-outline-danger btn " style="cursor:not-allowed;">
+                        <i class="fas fa-lock text-white"></i> Not Time In
+                    </a>
+                </td>
+
+            }
+
+        </tr>
+        }
+
+    </tbody>
+</table>

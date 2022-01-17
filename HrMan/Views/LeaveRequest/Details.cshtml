@@ -1,0 +1,170 @@
+﻿@model HrMan.Models.LeaveRequestVM;
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="content-wrapper" style="min-height: 403px;">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-md-8">
+                    <h1 class="m-0 text-center">Leave Checking</h1>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+
+                    @if (Model.Approved == null)
+                    {
+                        <div class="card alert alert-dark" role="alert">
+                            <div class="card-body">
+                                <h5 class="card-title">Pending Proposal</h5>
+                                <p class="card-text">
+                                    <strong>Requested by:</strong>  @Model.RequestingEmployee.Firstname @Model.RequestingEmployee.Lastname<br />Employee #@Model.RequestingEmployeeId
+                                </p>
+                                <hr />
+                                <p>
+                                    Date Requested - @Model.DateRequested.ToString("MMM-dd-yyyy")
+
+                                </p>
+                                <p>
+                                    Date Actioned - @Model.DateActioned.ToString("MMM-dd-yyyy")
+
+                                </p>
+
+                                <a class="card-link btn btn-sm btn-success" asp-action="ApproveRequest" asp-route-id="@Model.Id">
+                                    <i class="fa fa-check"></i>Approved
+
+                                </a>
+
+                                <a class="card-link btn btn-sm btn-danger" asp-action="RejectRequest" asp-route-id="@Model.Id">
+                                    <i class="fa fa-trash"></i>Reject
+                                </a>
+                                <a class="card-link btn btn-sm btn-info" asp-action="Index">
+                                    <i class="fa fa-check"></i>Go back
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else if (Model.Approved == true)
+                    {
+                        <div class="card alert alert-success" role="alert">
+                            <div class="card-body">
+                                <h5 class="card-title">Approved by Admin</h5>
+                                <p class="card-text">
+                                    <strong>Employee:</strong>  @Model.RequestingEmployee.Firstname @Model.RequestingEmployee.Lastname <br />Reference No. <b>@Model.RequestingEmployeeId</b>
+                                </p>
+                                <hr />
+                                <p>
+                                    Date Requested - @Model.DateRequested.ToString("MMM-dd-yyyy")
+
+                                </p>
+                                <p>
+                                    Date Actioned - @Model.DateActioned.ToString("MMM-dd-yyyy")
+
+                                </p>
+                                <a class="card-link btn btn-sm btn-info" asp-action="Index">
+                                    <i class="fa fa-check"></i>Go back
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card alert alert-danger" role="alert">
+                            <div class="card-body">
+                                <h4 class="alert-heading">Rejected by @Model.ApprovedBy.Firstname @Model.ApprovedBy.Lastname</h4>
+                                <p class="card-text">
+                                    <strong>Employee:</strong>  @Model.RequestingEmployee.Firstname @Model.RequestingEmployee.Lastname <br />Reference No. <b>@Model.RequestingEmployeeId</b>
+                                </p>
+                                <hr />
+                                <p class="cart-text">
+                                    Date Requested - @Model.DateRequested.ToString("MMM-dd-yyyy")
+                                </p>
+                                <p class="cart-text">
+                                    Date Rejected  - @Model.DateActioned.ToString("MMM-dd-yyyy")
+                                </p>
+                                <a class="card-link btn btn-sm btn-info" asp-action="Index">
+                                    <i class="fa fa-check"></i>Go back
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+
+                <div class="card card-primary card-outline alert alert-dark" role="alert">
+ 
+
+                        <div class="card-body bg-dark">
+                            <hr />
+                            <dl class="row">
+                                <dt class="col-sm-5">
+                                    @Html.DisplayNameFor(model => model.StartDate)
+                                  
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Model.StartDate.ToString("MMM-dd-yyyy")
+                                </dd>
+                                <dt class="col-sm-5">
+                                    @Html.DisplayNameFor(model => model.EndDate)
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Model.EndDate.ToString("MMM-dd-yyyy")
+                                </dd>
+                                <dt class="col-sm-5">
+                                    @Html.DisplayNameFor(model => model.LeaveType)
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Html.DisplayFor(model => model.LeaveType.Name)
+                                </dd>
+                                <dt class="col-sm-5">
+                                    @Html.DisplayNameFor(model => model.RequestComments)
+                                </dt>
+                                <dd class="col-sm-7">
+                                    @Html.DisplayFor(model => model.RequestComments)
+                                </dd>
+                            </dl>
+                        </div>
+                    </div><!-- /.card -->
+                </div>
+                <!-- /.col-md-6 -->
+                @*   <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="m-0">Featured</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">Special title treatment</h6>
+
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h5 class="m-0">Featured</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">Special title treatment</h6>
+
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>*@
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>

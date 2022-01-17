@@ -1,0 +1,163 @@
+﻿@model CreateRecord
+@{
+    ViewData["Title"] = "Payslip";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="card">
+            @* <div class="card-body">
+            <div class="container-fluid d-flex justify-content-between">
+                <div class="col-md-3 pl-0">
+                    <p class="mt-5 mb-2"><b>PayCompute Ltd</b></p>
+                    <p>11 Downing Street<br />London<br />W1C 2XB</p>
+                </div>
+                <div class="col-md-3 pr-0">
+                    <p class="mt-5 mb-2 text-right"><b>Pay Date: @Model.PayDate.ToString("dd/MM/yyyy")</b></p>
+                    <p class="text-right">Tax Code: @Model.TaxCode<br />Year: @Model.Year<br />HMRC</p>
+                </div>
+            </div><br /><br />
+        </div>*@
+
+            <div class="col-12">
+                <div class="callout callout-info">
+                    <h3 class="text-center"><i class="fas fa-info"></i><font _mstmutation="1" _msthash="2247362" _msttexthash="53638"> Human Resource Payroll Management</font></h3>
+                </div>
+                <!-- Main content -->
+                <div class="invoice p-3 mb-3">
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>
+                                <i class="fas fa-globe"></i><font _mstmutation="1" _msthash="3187418" _msttexthash="179660">
+                                    Payroll for @Model.RequestingEmployee.Fullname
+                                </font><small class="float-right" _msthash="3898596" _msttexthash="142974"><b>Pay Date: @Model.PayDate.ToString("dd/MM/yyyy")</b></small>
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+                    <div class="row invoice-info">
+                        <div class="col-sm-4 invoice-col">
+                            <font _mstmutation="1" _msthash="2785328" _msttexthash="45383">
+                                From
+                            </font><address>
+                                <strong>Human Resource, Inc.</strong><br>
+                                795 Folsom Ave, Suite 600<br>
+                                San Francisco, CA 94107<br>
+                                Phone: (804) 123-5432<br>
+                                Email: hr@almasaeedstudio.com
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 invoice-col">
+                            <font _mstmutation="1" _msthash="2785614" _msttexthash="19188">
+                                To
+                            </font><address>
+                                <strong>@Model.RequestingEmployee.Fullname</strong><br>
+                                49 Pechay St 1st Floor<br>
+                                Pasig City, Manila 1600<br>
+                                Phone: @Model.RequestingEmployee.PhoneNumber<br>
+                                Email: @Model.RequestingEmployee.Email
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 invoice-col">
+                            <font _mstmutation="1" _msthash="2785900" _msttexthash="2402101">
+                                <b _mstmutation="1">Invoice #007612</b><br _mstmutation="1">
+                                <br _mstmutation="1">
+                                <b _mstmutation="1">Order ID:</b> 4F3S8J<br _mstmutation="1">
+                                <b _mstmutation="1">Payment Due:</b> 2/22/2014<br _mstmutation="1">
+                                <b _mstmutation="1">Account:</b> 968-34567
+                            </font>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 table-responsive-md">
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Earnings</th>
+                                <th>Hours Worked</th>
+                                <th>Rates</th>
+                                <th>Amount</th>
+                                <th>Deductions</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>Basic :</b></td>
+                                <td>@Model.ContractualHours.ToString("f")</td>
+                                <td>@Model.HourlyRate.ToString("f")</td>
+                                <td>@Model.ContractualEarnings.ToString("C")</td>
+                                <td><b>Tax :</b></td>
+                                <td>@Model.Tax.ToString("c")</td>
+                            </tr>
+                            <tr>
+                                <td><b>Overtime :</b></td>
+                                <td>@Model.OvertimeHours.ToString("f")</td>
+                                <td>@Model.OvertimeRate.ToString("f2")</td>
+                                <td>@Model.OvertimeEarnings.ToString("C")</td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Total :</b></td>
+                                <td>@Model.HoursWorked</td>
+                                <td></td>
+                                <td>@Model.TotalEarnings.ToString("C")</td>
+                                <td></td>
+                                <td>@Model.TotalDeduction.ToString("C")</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="table-dark"><b>NET PAY :</b></td>
+                                <td class="table-dark">@Model.NetPayment.ToString("C")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+            <div class="row no-print">
+                <div class="col-12">
+                    <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                    <button type="button" class="btn btn-success float-right">
+                        <i class="far fa-credit-card"></i> Submit
+                        Payment
+                    </button>
+                    <a asp-action="GeneratePaySlip" asp-route-id="@Model.Id" class="btn btn-primary float-right" style="margin-right: 5px;">
+                        <i class="fas fa-download"></i> Generate PDF
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

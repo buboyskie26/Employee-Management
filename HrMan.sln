@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HrMan", "HrMan\HrMan.csproj", "{9380AA80-13D0-4992-BB55-A671E64ADCD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9380AA80-13D0-4992-BB55-A671E64ADCD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9380AA80-13D0-4992-BB55-A671E64ADCD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9380AA80-13D0-4992-BB55-A671E64ADCD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9380AA80-13D0-4992-BB55-A671E64ADCD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D52D49C-B7F6-4451-B877-68A12084BC65}
+	EndGlobalSection
+EndGlobal

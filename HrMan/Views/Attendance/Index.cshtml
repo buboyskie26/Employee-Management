@@ -1,0 +1,259 @@
+﻿@model AttendanceEmployee;
+@{
+    ViewData["Title"] = "Attendace Summary";
+
+    DateTime startDate = new DateTime((int)DateTime.UtcNow.Year, (int)DateTime.UtcNow.Month, (int)DateTime.UtcNow.Day, 8, 0, 0, DateTimeKind.Utc);
+    DateTime endDate = new DateTime((int)DateTime.UtcNow.Year, (int)DateTime.UtcNow.Month, (int)DateTime.UtcNow.Day, 17, 0, 0, DateTimeKind.Utc);
+
+    var loginDate = Model.Attendances.Select(i => i.LoginDate).FirstOrDefault();
+    var logOffDate = Model.Attendances.Select(i => i.LogOffDate).FirstOrDefault();
+
+}
+<html lang="en">
+
+<head>
+
+
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+</head>
+
+<body>
+    <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+        <!--begin::Header-->
+
+        <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+            <!--begin::Toolbar-->
+            <!--begin::Title-->
+            <h1 class="text-dark mb-4 text-center fw-bolder my-1 fs-2">Employees Attedance</h1>
+            <div class="col-6 pt-2 pb-2 float-right mb-4">
+
+
+                @using (Html.BeginForm())
+                {
+
+
+                    @Html.TextBox("Register_Date", DateTime.Now.ToLongDateString(), new { @class = "form-control" }) @*<button type="button" class="btn btn-success submit">Ask</button>*@}
+            </div>
+
+            <!--end::Toolbar-->
+            <!--begin::Post-->
+            <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
+                <!--begin::Container-->
+                <div class="container-xxl">
+                    <!--begin::Card-->
+                    <div class="card">
+                        <div class="card-body pt-0">
+                            <!--begin::Table-->
+                            <div id="kt_table_users_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="kt_table_users">
+                                        <!--begin::Table head-->
+                                        @*  style="background-color:#36DB51; color:black;"*@
+                                        <thead class="text-center">
+                                            <!--begin::Table row-->
+                                            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                                                <th class="w-10px pe-2 sorting_disabled" rowspan="1" colspan="1" aria-label="
+
+
+
+													" style="width: 29.25px;">
+                                                    <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                                        <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" value="1">
+                                                    </div>
+                                                </th>
+                                                <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="User: activate to sort column ascending" style="width: 201.781px;">User</th>
+                                                <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending" style="width: 125px;">Role</th>
+                                                <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Last login: activate to sort column ascending" style="width: 200px;">Time In</th>
+                                                <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Last login: activate to sort column ascending" style="width: 200px;">Time Out</th>
+                                                <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Last login: activate to sort column ascending" style="width: 150px;">Status</th>
+                                                <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Last login: activate to sort column ascending" style="width: 150px;">OT</th>
+                                                <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users" rowspan="1" colspan="1" aria-label="Joined Date: activate to sort column ascending" style="width: 150px;">Joined Date</th>
+                                                <th class="text-end min-w-100px sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 400px;">Actions</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="text-gray-600 fw-bold">
+
+                                            @foreach (var item in Model.Employees)
+                                            {
+                                                <tr class="odd text-center">
+                                                    <td>
+                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                            <input class="form-check-input" type="checkbox" value="1">
+                                                        </div>
+                                                    </td>
+                                                    <!--end::Checkbox-->
+                                                    <!--begin::User=-->
+                                                    <td class="d-flex align-items-center">
+                                                        <!--begin:: Avatar -->
+                                                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                            <div class="symbol-label">
+                                                                @*  <img src="/craft/assets/media/avatars/150-1.jpg" alt="Emma Smith" >
+                                                                    <img alt="image" style="max-width:100px" class="img-circle img-size-32 mr-2" src="@Url.Content(item.RequestingEmployee.ImageUrl)" />*@
+                                                                <img alt="image" style="max-width:100px;" class="img-circle img-size-32" src="@Url.Content(item.ImageUrl)" />
+
+                                                            </div>
+                                                        </div>
+                                                        <!--end::Avatar-->
+                                                        <!--begin::User details-->
+                                                        <div class="d-flex flex-column ml-2">
+                                                            <a asp-action="AttendanceEmployee" asp-route-id="@item.Id" class="text-gray-800 text-hover-primary mb-1">@item.Fullname</a>
+                                                            <span>@item.Email</span>
+                                                        </div>
+                                                        <!--begin::User details-->
+                                                    </td>
+
+                                                    <td>@item.Role</td>
+
+
+                                                    <td>
+                                                        <button class="btn btn-block btn-outline-success text-white btn-sm">@item.DateLogin.ToString("dddd, dd MMMM yyyy h:mm tt")</button>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-block btn-outline-danger text-white btn-sm">@item.DateLogOff.ToString("dddd, dd MMMM yyyy h:mm tt")</button>
+
+                                                    </td>
+
+                                                    <td>
+                                                        @if (loginDate > startDate)
+                                                        {
+
+
+                                                            <button class="btn btn-block btn-danger text-white btn-sm">Late</button>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <button class="btn btn-block btn-success text-white btn-sm">On Time</button>
+
+                                                        }
+
+                                                    </td>
+
+                                                    <td>
+                                                        @if (logOffDate > endDate)
+                                                        {
+
+
+                                                            <span class="btn btn-block btn-success text-white btn-sm">Yes</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="btn btn-block btn-info text-white btn-sm">No</span>
+
+                                                        }
+                                                    </td>
+
+                                                    <td data-order="2022-06-24T18:05:00+08:00">
+                                                        <span class="btn btn-block bg-gradient-dark text-white btn-sm">@item.DateJoined.ToString("dddd, dd MMMM yyyy")</span>
+
+                                                    </td>
+
+
+                                                    <td class="align-items-end pd-0 m-0">
+                                                        <a class="text-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </a>
+                                                        <a class="text-success" asp-action="Details" asp-route-id="@item.Id">
+                                                            <i class="fas fa-bars"></i> Details
+                                                        </a>
+                                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                                            <i class="far fa-trash-alt"></i> Delete
+                                                        </a>
+
+                                                    </td>
+                                                    <!--end::Action=-->
+                                                </tr>
+                                            }
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div><div class="row"><div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"></div><div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end"><div class="dataTables_paginate paging_simple_numbers" id="kt_table_users_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="kt_table_users_previous"><a href="#" aria-controls="kt_table_users" data-dt-idx="0" tabindex="0" class="page-link"><i class="previous"></i></a></li><li class="paginate_button page-item active"><a href="#" aria-controls="kt_table_users" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="kt_table_users" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="kt_table_users" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item next" id="kt_table_users_next"><a href="#" aria-controls="kt_table_users" data-dt-idx="4" tabindex="0" class="page-link"><i class="next"></i></a></li></ul></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        function updateDisplay() {
+            var currentTime = getValidTime();
+
+            $('#Register_Date').val(new Date());
+
+            setTimeout('updateDisplay()', 1000);
+        }
+
+        function getValidTime() {
+            var currentTime = new Date();
+
+            var hoursValue = currentTime.getHours();
+            var minutesValue = currentTime.getMinutes();
+            var secondsValue = currentTime.getSeconds();
+
+            if (hoursValue > 12) {
+                hoursValue -= 12;
+            }
+
+            if (hoursValue < 10) {
+                hoursValue = '0' + hoursValue;
+            }
+            if (minutesValue < 10) {
+                minutesValue = '0' + minutesValue;
+            }
+            if (secondsValue < 10) {
+                secondsValue = '0' + secondsValue;
+            }
+
+            return hoursValue + ':' + minutesValue + ':' + secondsValue;
+        }
+
+
+        $(document).ready(function () {
+            updateDisplay();
+        });
+    </script>
+
+</body>
+</html>
+
+
+<!--<div class="row">-->
+<!-- Single Dentist Area -->
+<!--<div class="col-12 col-sm-6 col-md-4">
+    <div class="single-dentist-area mb-100">
+        <img src="/static/website/img/bg-img/p2.jpg" alt="">
+    </div>
+</div>-->
+<!-- Single Dentist Area -->
+<!--<div class="col-12 col-md-6 col-md-8">
+    <div class=" mb-100">-->
+<!-- Section Heading -->
+<!--<div class="section-heading">
+                <h5>Dr. Reynaldo A. Gonzalez</h5>
+                <p>Surgical Dentistry</p>
+                <div class="dentist-social-info">
+                    <a href="https://www.facebook.com/docreygonzalez" target="_blank"><i class="fa fa-facebook"></i></a>
+
+                </div>
+            </div>
+            <p>
+                Studied at Central Escolar University, Former President  and Adviser at Philippine Dental Association Laguna Chapter. Now he is a doctor at Gonzalez Partoza Dental clinic.
+            </p>
+            <p>“Ÿour smile may be the brightest part of someones day. So wear it often and share it freely!” </p>
+        </div>
+    </div>
+</div>-->

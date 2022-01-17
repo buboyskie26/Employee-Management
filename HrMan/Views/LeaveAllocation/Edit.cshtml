@@ -1,0 +1,155 @@
+﻿@model EmployeeVMTwo; 
+@*@{
+    var birthday = Model.DateOfBirth.ToString("dddd, dd MMMM yyyy");
+    var joinedDate = Model.DateJoined.ToString("dddd, dd MMMM yyyy");
+}*@
+<div class="wrapper">
+    
+    <div class="main">
+       
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-3">Settings</h1>
+
+                <div class="row">
+                    
+
+                    <div class="col-md-10 col-xl-12">
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="account" role="tabpanel">
+                                <form method="post" enctype="multipart/form-data" asp-action="Edit">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-actions float-end">
+                                                <div class="dropdown position-relative">
+                                                    <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="#">Action</a>
+                                                        <a class="dropdown-item" href="#">Another action</a>
+                                                        <a class="dropdown-item" href="#">Something else here</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 class="card-title mb-0">Public info</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="mb-3">
+                                                        <label for="inputUsername" class="form-label">Username</label>
+                                                        <input asp-for="@Model.Email" type="text" class="form-control" id="inputUsername" placeholder="Username">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="inputUsername" class="form-label">Biography</label>
+                                                        <textarea rows="2" class="form-control" id="inputBio" placeholder="Tell something about yourself"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 form-group">
+                                                    <div class="text-center">
+                                                        @*<img alt="Chris Wood" src="img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2" width="128" height="128">*@
+                                                         <img class="rounded-circle img-responsive mt-2" style="width:128px; height:128px" src="@Url.Content(Model.ImageUrl)" alt="User profile picture">
+                                                        
+                                                        <div class="mt-2">
+                                                            <div class="btn btn-sm btn-primary btn-icon-text text-white">
+
+                                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                                <label asp-for="ImageUrl"></label>
+                                                                <input asp-for="ImageUrl" type="file" value="Upload" />
+                                                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                                                            </div>
+
+                                                        </div>
+                                                        <small>For best results, use an image at least 128px by 128px in .jpg format</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="card-header">
+                                            <div class="card-actions float-end">
+                                                <div class="dropdown position-relative">
+                                                    <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="#">Action</a>
+                                                        <a class="dropdown-item" href="#">Another action</a>
+                                                        <a class="dropdown-item" href="#">Something else here</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 class="card-title mb-0">Employee info</h5>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="inputFirstName" class="form-label">First name</label>
+                                                    <input asp-for="@Model.Firstname" type="text" class="form-control" id="inputFirstName" placeholder="First name">
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="inputLastName" class="form-label">Last name</label>
+                                                    <input asp-for="@Model.Lastname" type="text" class="form-control" id="inputLastName" placeholder="Last name">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputEmail4" class="form-label">Email</label>
+                                                <input asp-for="@Model.Email" class="form-control" id="inputEmail4" placeholder="Email">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputEmail4" class="form-label">Contact Number</label>
+                                                <input asp-for="@Model.contactNumber" type="text" class="form-control" id="inputEmail4" placeholder="Contact Number">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="inputEmail4" class="form-label">Date of Joined</label>
+                                                <input asp-for="@Model.DateJoined" type="date" class="form-control" id="inputEmail4" placeholder="Joined Data">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputEmail4" class="form-label">Date of Birth</label>
+                                                <input asp-for="@Model.DateOfBirth" type="date" class="form-control" id="inputEmail4" placeholder="Birthday">
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="inputCity" class="form-label">City</label>
+                                                    <input type="text" class="form-control" id="inputCity">
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="inputState" class="form-label">State</label>
+                                                    <select id="inputState" class="form-control">
+                                                        <option selected="">Choose...</option>
+                                                        <option>...</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-md-2">
+                                                    <label for="inputZip" class="form-label">Zip</label>
+                                                    <input type="text" class="form-control" id="inputZip">
+                                                </div>
+                                            </div>
+                                            <input type="submit" class="btn btn-primary" value="Save Changes" />
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                                
+
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>

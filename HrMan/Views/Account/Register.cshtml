@@ -1,0 +1,143 @@
+﻿@model RegisterVM;
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            Create a New Account
+        </div>
+
+        <div class="card">
+            <div class="card-body register-card-body">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form asp-action="Register" method="post" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        <input asp-for="FirstName" class="form-control" placeholder="First name">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="LastName" class="form-control" placeholder="Last name">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="Email" class="form-control" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="Password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Retype password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="col-md-2" asp-for="RoleName">Role</label>
+                        <div class="col-md-10">
+                            <select asp-for="RoleName" asp-items="@HrMan.Utility.Helper.GetRolesForDropDown()"
+                                    class="form-control"></select>
+                            <span asp-validation-for="RoleName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    @* <span asp-validation-for="contactNumber" class="text-danger"></span>
+        <div class="input-group mb-3">
+            <input asp-for="contactNumber" class="form-control" placeholder="09-****-****">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-phone-square"></span>
+                </div>
+            </div>
+        </div>
+        <span asp-validation-for="Birthday" class="text-danger"></span>
+        <div class="input-group mb-3">
+            <input asp-for="Birthday" type="date" class="form-control" placeholder="Date of Birth">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-birthday-cake"></span>
+                </div>
+            </div>
+        </div>
+
+        <span asp-validation-for="JoinedDate" class="text-danger"></span>
+        <div class="input-group mb-3">
+            <input asp-for="JoinedDate" type="date" class="form-control" placeholder="Date of Joined">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-viber"></span>
+                </div>
+            </div>
+        </div>*@
+                <div class="form-group">
+                    <div class="form-group col-md-3 text-center">
+                        <label asp-for="ImageUrl"></label>
+                    </div>
+                    <div class="btn btn-sm btn-primary btn-icon-text text-white">
+
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <input asp-for="ImageUrl" type="file" value="Upload" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+              @*  <div class="form-group row">
+                    <div class="col-3 btn-icon-text text-white" >
+                        <i class="fas fa-cloud-upload-alt"></i>
+
+                        Image
+
+                    </div>
+
+                    <div class="col-7 btn   btn-icon-text text-white">
+
+                        <input type="file" id="uploadBox" multiple name="files" asp-for="ImageUrl" class="form-control" />
+
+                    </div>
+                </div>*@
+
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </div>
+                </form>
+                <a asp-action="Login" class="text-center">I already have an account</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

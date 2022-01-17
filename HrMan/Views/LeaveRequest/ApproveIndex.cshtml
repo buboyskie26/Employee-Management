@@ -1,0 +1,61 @@
+﻿@model RequestCountVM;
+@{
+    ViewData["Title"] = "Approve Index";
+}
+@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@using HrMan.Utility;
+@using System.Security.Claims;
+
+<h3 class="text-center mb-3">Approved Employee Request</h3>
+
+<div class="col-md-10 offset-md-3">
+    <div class="row">
+
+        @foreach (var item in Model.LeaveRequests)
+        {
+            @if (item.RequestingEmployee != null)
+            {
+
+
+                <div class="col-md-12">
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline col-md-6">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="img-fluid " style="max-width:250px;" src="@Url.Content(item.RequestingEmployee.ImageUrl)" alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center mt-4">
+                                @item.RequestingEmployee.Lastname @item.RequestingEmployee.Firstname
+                            </h3>
+                            @if (@HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role).Equals(Helper.SuperVisor))
+
+                            {
+                                <p class="text-muted text-center">@item.RequestingEmployee.Role</p>
+
+                            }
+
+
+
+
+                            <a href="#" class="btn btn-primary btn-block"><b>View Details</b></a>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+
+                </div>
+            }
+
+        }
+
+    </div>
+</div>

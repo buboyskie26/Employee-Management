@@ -1,0 +1,49 @@
+﻿@model HrMan.Models.AllocationIndex
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center">Setting of Allocation</h1>
+
+@if (Model.userCount > 0)
+{
+    <h5 class="text-center">You need to Update Alocation</h5>
+
+}
+
+
+<table class="table">
+    <thead>
+        <tr class="text-center">
+
+            <th>
+                Leave Types
+            </th>
+
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LeaveTypes)
+        {
+            <tr class="text-center">
+
+                <td>
+                    @item.Name
+                </td>
+
+
+                <td> 
+                    
+                        <a asp-action="SetLeave" asp-route-id="@item.Id" class="bg-success btn">
+                            <i class="fa fa-pencil text-white"></i> Allocate to Employee
+
+                        </a>
+                   
+                
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,204 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@using HrMan.Utility;
+@using System.Security.Claims;
+
+
+@model CreateRequest;
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    @if (User.IsInRole(Helper.Admin) || User.IsInRole(HrMan.Utility.Helper.SuperVisor))
+    {
+
+
+        <div class="form-group">
+
+            @if (HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role).Equals(Helper.SuperVisor) || HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role).Equals(Helper.Admin))
+
+            {
+                <label>Select Type</label>
+
+                @Html.DropDownList("suqweerVisorId", new SelectList(ViewBag.Supervisor, "Id", "Name"), new
+             {
+                @class = "form-control select2",
+                @onchange = "onDoctorChange()"
+
+             })
+            }
+            @if (HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role).Equals(Helper.Regular))
+
+            {
+                <label>Select Type</label>
+
+                @Html.DropDownList("regularId", new SelectList(ViewBag.Regular, "Id", "Name"), new
+             {
+                @class = "form-control select2",
+                @onchange = "onDoctorChange()"
+
+             })
+            }
+
+
+        </div>
+        @*     <div class="col-3 offset-5">
+                <a class="align-items-center form-control" asp-controller="Account" asp-action="Register">Add new Admin</a>
+            </div>*@
+    }
+
+    <div id="calendar"></div>
+
+</div>
+
+<partial name="_AddEditAppointment" />
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @*   <div class="form-group">
+                    <label asp-for="LeaveTypeId" class="control-label"></label>
+                    @Html.DropDownListFor(q => q.LeaveTypeId, new SelectList(Model.LeaveTypes, "Value", "Text"), "Select Leave Type", new { @class = "form-control" })
+                </div>*@
+
+            <div class="form-group">
+                <label asp-for="LeaveTypeId" class="control-label"></label>
+                <select asp-for="LeaveTypeId" asp-items="@ViewBag.leaveName" class="form-control"></select>
+            </div>
+
+
+            @if (HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role).Equals(Helper.SuperVisor))
+            {
+                <div class="form-group">
+                    <label asp-for="SuperVisorId" class="control-label"></label>
+                    @Html.DropDownList("superVisorId", new SelectList(ViewBag.Supervisor, "Id", "Name"), new
+               {
+                   @class = "form-control select2",
+                   @onchange = "onDoctorChange()"
+
+               })
+
+                </div>
+            }
+            else @if (HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role).Equals(Helper.Manager))
+       {
+        <div class="form-group">
+            <label asp-for="ManagerId" class="control-label"></label>
+            @Html.DropDownList("managerId", new SelectList(ViewBag.Manager, "Id", "Name"), new
+       {
+           @class = "form-control select2",
+           @onchange = "onDoctorChange()"
+
+       })
+        </div>
+
+    }
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" type="text" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" type="text" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="StartDate" class="control-label"></label>
+                        <input asp-for="StartDate" type="date" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="EndDate" class="control-label"></label>
+                        <input asp-for="EndDate" type="date" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="RequestComments" class="control-label"></label>
+                <textarea id="uploadBox" asp-for="RequestComments" class="form-control"></textarea>
+                <span asp-validation-for="RequestComments" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" onclick="return validateInput()" value="Request Leave" class="btn btn-primary btn-block" />
+
+            </div>
+            <div>
+                <a class="btn btn-secondary btn-block" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="text-right pt-2">
+    <p>@HttpContextAccessor.HttpContext.Session.GetString("ssuserName")`s account was logged in</p>
+
+    <p></p>
+</div>
+
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+
+    }
+    <script>
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                height: 250
+
+            })
+        });
+
+        function validateInput() {
+            if (document.getElementById("uploadBox").value == "") {
+                Swal.fire(
+                    'Error!',
+                    'Filled all information',
+                    'error'
+                )
+                return false;
+            } else if (document.getElementById("uploadBox").value != "") {
+                Swal.fire(
+                    'Successfully Requested',
+                    'Happy Leaving',
+                    'success',
+                )
+                return true;
+
+
+            }
+            return true;
+        }
+
+
+
+
+    </script>
+
+}

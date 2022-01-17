@@ -1,0 +1,80 @@
+﻿@model IEnumerable<HrMan.Models.IndexRecord>;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row text-white">
+    <div class="col-md-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <nav aria-label="breadcrumb">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index"></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Payment List
+                        </li>
+                    </ul>
+                </nav><br /><br />
+                <div class="row">
+                    <div class="col-md-12 table-responsive-md">
+                      
+                        <a class="btn btn-sm text-white btn-success float-md-right" asp-action="Create"> New Employee</a>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Employee</th>
+                                    <th>Pay Date</th>
+                                    <th>Month</th>
+                                    <th>Tax Year</th>
+                                    <th>Total Earnings</th>
+                                    <th>Total Deductions</th>
+                                    <th>Net Pay</th>
+                                    <th class="text-warning">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="text-center">
+                                        <td>
+                                            <a asp-action="Details" asp-route-id="@item.Id">
+                                                @item.RequestingEmployee.Firstname @item.RequestingEmployee.Lastname
+                                            </a>
+                                        </td>
+                                        <td>@item.PayDate.ToString("MM/dd/yyyy")</td>
+                                        <td>@item.PayMonth</td>
+                                        <td>@item.TaxYearId</td>
+                                        <td>$@item.TotalEarnings.ToString("0.00")</td>
+                                        <td>$@item.TotalDeduction.ToString("0.00")</td>
+                                        <td>$@item.NetPayment.ToString("0.00")</td>
+                                        <td>
+
+
+                                            <a class="text-success" asp-action="Payslip" asp-route-id="@item.Id">
+                                                <i class="fas fa-bars"></i> Preview Payslip
+
+                                            </a>
+
+                                           
+                                            <a class="text-success" asp-action="Edit" asp-route-id="@item.Id">
+                                                <i class="fas fa-edit"></i>  Edit
+
+                                            </a>
+                                            <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table> <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
