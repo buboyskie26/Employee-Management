@@ -1,5 +1,6 @@
 # HrMan
 Simple Employee Management
 
-SampleSample
-SampleSample
+Included Features
+
+
